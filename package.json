@@ -1,0 +1,20 @@
+{
+  "name": "level-static",
+  "description": "",
+  "version": "0.0.0",
+  "homepage": "https://github.com/dominictarr/level-static",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dominictarr/level-static.git"
+  },
+  "dependencies": {
+    "stream-to-pull-stream": "~1.1.4",
+    "mime": "~1.2.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "set -e; for t in test/*.js; do node $t; done"
+  },
+  "author": "Dominic Tarr <dominic.tarr@gmail.com> (http://dominictarr.com)",
+  "license": "MIT"
+}
