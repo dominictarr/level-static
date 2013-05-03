@@ -1,6 +1,6 @@
 # level-static
 
-use leveldb as a static file store.
+use leveldb as a static file server.
 
 ``` js
 var static  = require('level-static')
