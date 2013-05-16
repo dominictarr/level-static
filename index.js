@@ -36,14 +36,16 @@ function isDir(key) {
 //that has all the keys?
 
 module.exports = function (db, opts) {
+  opts = opts || {}
   var sep = opts.sep || '\x00'
-  return function (req, res) {
+  return function (req, res, next) {
 
     var url = isDir(req.url) ? req.url + 'index.html' : req.url
     var key = split(url).join('\x00')
 
     function respond (err, data) {
       if(err) {
+        if(next) return next(err)
         res.setHeader('content-type', 'application/json')
         data = JSON.stringify({
           error: true,
@@ -56,8 +58,7 @@ module.exports = function (db, opts) {
       res.setHeader('content-length', data ? data.length : 0)
       res.end(data || '')
     }
-    
- 
+
    if(req.method === 'GET') {
       req.resume()
       db.get(key, respond)
@@ -80,7 +81,8 @@ if(!module.parent) {
   var opts    = require('optimist').argv
 
   var db = levelup(opts._[0] || '/tmp/level-static')
+
   require('http')
-  .createServer(module.exports(db, opts))
-  .listen(opts.port || 8000)
+    .createServer(module.exports(db, opts))
+    .listen(opts.port || 8000)
 }
