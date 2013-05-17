@@ -8,10 +8,13 @@
     "url": "git://github.com/dominictarr/level-static.git"
   },
   "dependencies": {
-    "stream-to-pull-stream": "~1.1.4",
+    "stream-to-pull-stream": "~1.2.0",
     "mime": "~1.2.9"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "request": "~2.21.0",
+    "tape": "~1.0.2"
+  },
   "scripts": {
     "test": "set -e; for t in test/*.js; do node $t; done"
   },
