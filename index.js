@@ -55,6 +55,7 @@ module.exports = function (db, opts) {
       } else
         res.setHeader('content-type', mime.lookup(url))
 
+      console.log('>>>', data)
       res.setHeader('content-length', data ? data.length : 0)
       res.end(data || '')
     }
@@ -76,13 +77,4 @@ module.exports = function (db, opts) {
   }
 }
 
-if(!module.parent) {
-  var levelup = require('levelup')
-  var opts    = require('optimist').argv
 
-  var db = levelup(opts._[0] || '/tmp/level-static')
-
-  require('http')
-    .createServer(module.exports(db, opts))
-    .listen(opts.port || 8000)
-}
