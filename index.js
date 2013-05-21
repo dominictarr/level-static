@@ -55,7 +55,6 @@ module.exports = function (db, opts) {
       } else
         res.setHeader('content-type', mime.lookup(url))
 
-      console.log('>>>', data)
       res.setHeader('content-length', data ? data.length : 0)
       res.end(data || '')
     }
