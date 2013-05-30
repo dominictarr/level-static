@@ -8,7 +8,7 @@
     "url": "git://github.com/dominictarr/level-static.git"
   },
   "dependencies": {
-    "stream-to-pull-stream": "~1.2.0",
+    "stream-to-pull-stream": "~1.2.1",
     "mime": "git://github.com/dominictarr/node-mime.git"
   },
   "devDependencies": {
