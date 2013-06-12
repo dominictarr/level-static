@@ -1,6 +1,7 @@
 var toPull = require('stream-to-pull-stream')
 var pull   = require('pull-stream')
 var mime   = require('mime')
+var Buffer = require('buffer').Buffer
 
 function split (url) {
   //it's sometimes easier to match the content as the splitter
@@ -14,14 +15,11 @@ function split (url) {
 }
 
 function buffer(stream, cb) {
-
-  toPull(stream)
-  .pipe(pull.reduce(function (body, chunk) {
-    return body + chunk
-  }, '', function (err, acc) {
-    cb(err, acc)
+  pull(toPull(stream), pull.collect(function (err, ary) {
+    if(err) return cb(err)
+    var b = Buffer.concat(ary)
+    cb(null, b)
   }))
-
 }
 
 function isDir(key) {
@@ -52,11 +50,15 @@ module.exports = function (db, opts) {
           message: err.message,
           code:err.code
         })
-      } else
+      } else {
         res.setHeader('content-type', mime.lookup(url))
+      }
+      //not setting content length,
+      //because if the data is a string, with utf8
+      //the length will be wrong, and then you'll get a HTTPParse error.
+      //res.setHeader('Content-length', data ? data.length : 0)
 
-      res.setHeader('content-length', data ? data.length : 0)
-      res.end(data || '')
+      return res.end(data || null)
     }
 
    if(req.method === 'GET') {
@@ -75,5 +77,3 @@ module.exports = function (db, opts) {
     }
   }
 }
-
-
