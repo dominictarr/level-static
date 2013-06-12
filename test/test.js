@@ -7,7 +7,6 @@ var tape = require('tape')
 var fs = require('fs')
 var db = levelup('level-static-test')
 var port = ~~(Math.random()*60000) + 1024
-var shasum = require('shasum')
 
 function url() {
   return 'http://localhost:'+port+'/'+[].slice.call(arguments).join('/')
