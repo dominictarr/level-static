@@ -58,7 +58,7 @@ module.exports = function (db, opts) {
       //the length will be wrong, and then you'll get a HTTPParse error.
       //res.setHeader('Content-length', data ? data.length : 0)
 
-      return res.end(data || null)
+      return data ? res.end(data) : res.end()
     }
 
    if(req.method === 'GET') {
