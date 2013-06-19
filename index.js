@@ -44,7 +44,7 @@ module.exports = function (db, opts) {
     function respond (err, data) {
       if(err) {
         if(next) return next(err)
-        res.setHeader('content-type', 'application/json')
+        res.writeHead(404, err.code, {'content-type': 'application/json'})
         data = JSON.stringify({
           error: true,
           message: err.message,
