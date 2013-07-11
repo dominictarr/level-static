@@ -34,6 +34,8 @@ function isDir(key) {
 //that has all the keys?
 
 module.exports = function (db, opts) {
+  console.log(db.options)
+
   opts = opts || {}
   var sep = opts.sep || '\x00'
   return function (req, res, next) {
@@ -63,11 +65,11 @@ module.exports = function (db, opts) {
 
    if(req.method === 'GET') {
       req.resume()
-      db.get(key, respond)
+      db.get(key, {valueEncoding: 'binary'}, respond)
     } else if (req.method === 'PUT') {
       buffer(req, function (err, value) {
         if(err) return respond(err)
-        db.put(key, value, respond)
+        db.put(key, value, {valueEncoding: 'binary'}, respond)
       })
     } else if (req.method === 'DELETE') {
       req.resume()
