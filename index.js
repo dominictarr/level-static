@@ -38,11 +38,13 @@ module.exports = function (db, opts) {
 
   opts = opts || {}
   var sep = opts.sep || '\x00'
+  var urlparser = opts.urlparser || function(str) { return str }
+
   return function (req, res, next) {
-
-    var url = isDir(req.url) ? req.url + 'index.html' : req.url
+    
+    var url = isDir(req.url) ? urlparser(req.url) + 'index.html' : urlparser(req.url)
     var key = split(url).join('\x00')
-
+    
     function respond (err, data) {
       if(err) {
         if(next) return next(err)
