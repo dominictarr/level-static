@@ -1,7 +1,7 @@
 {
   "name": "level-static",
   "description": "use leveldb as a static file server",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "homepage": "https://github.com/dominictarr/level-static",
   "repository": {
     "type": "git",
