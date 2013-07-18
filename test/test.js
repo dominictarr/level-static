@@ -31,8 +31,8 @@ tape('simple test', function (t) {
 })
 
 tape('large file', function (t) {
-
-  var server = http.createServer(static(db)).listen(port, function () {
+  
+   var server = http.createServer(static(db)).listen(port, function () {
 
     var d3 = '', l = 0
     var put = request.put(url('d3.v2.js'))
@@ -53,4 +53,34 @@ tape('large file', function (t) {
       })
     })
   })
+})
+
+tape('url parser option', function (t) {
+  	
+  var opt = {};
+  opt.urlparser = function(url){
+  	return url.split('?')[0]
+  }
+  var server = http.createServer(static(db, opt)).listen(port, function () {
+
+    var d3 = '', l = 0
+    var put = request.put(url('urlparser.js?aparam=hello'))
+
+    fs.createReadStream(__dirname + '/fixtures/d3.v2.js', 'utf-8')
+    .on('data', function (data) {
+      d3 += data.toString()
+      l += data.length
+    })
+    .pipe(put)
+
+    put.on('end', function () {
+      request(url('urlparser.js'), function (err, _, body) {
+        if(err) throw err
+        t.equal(body, d3)
+        server.close()
+        t.end()
+      })
+    })
+  })
+
 })
